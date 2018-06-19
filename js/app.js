@@ -5,7 +5,7 @@
 var cards = ['fa-diamond', 'fa-diamond', 'fa-bomb', 'fa-bomb', 'fa-bolt', 'fa-bolt', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-cube', 'fa-cube', 'fa-bicycle', 'fa-bicycle', 'fa-anchor', 'fa-anchor', 'fa-leaf', 'fa-leaf'];
 
 function generateCard(card) {            
-    return '<li class="card"><i class="fa ${card}"></i></li>';
+    return `<li class="card"><i class="fa ${card}"></i></li>`;
 }
 
 /*
