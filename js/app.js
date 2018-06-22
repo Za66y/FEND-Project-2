@@ -36,6 +36,60 @@ function addMove () {
     movesCounter.innerHTML = moves;
 }
 
+function checkScore() {
+    if (moves === 10 || moves === 20) {
+        removeStar();
+    }
+}
+
+function removeStar() {
+    var starList = document.querySelectorAll('.stars li');
+    for (star of starList) {
+        if (star.style.display !== 'none') {
+            star.style.display = 'none';
+            break;
+        }
+    }
+}
+
+
+let hour = 0;
+let minutes = 0;
+let seconds = 0;
+let timer;
+let initialClick = false;
+
+function formatTime() {
+    let sec = seconds > 9 ? String(seconds) : '0' + String(seconds);
+    let min = minutes > 9 ? String(minutes) : '0' + String(minutes);
+    return min + ':' + sec;
+}
+
+
+function startTimer() {
+    timer = setInterval(function(){
+        seconds++;
+        if(seconds == 60) {
+            minutes++;
+            seconds = 0;
+        }
+        console.log(formatTime());
+        displayTime();
+        
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(timer);
+}
+
+function displayTime() {
+    const clock = document.querySelector('.clock');
+    console.log(clock);
+    clock.innerHTML = formatTime();
+}
+
+
 
 
 /*
@@ -64,11 +118,27 @@ initGame();
 var allCards = document.querySelectorAll('.card');
 var openCards = [];
 var moves = 0;
+var clockOff = true;
+var deck = document.querySelector('.deck');
+    
+
+
+
+allCards.forEach(function(card){
+    card.addEventListener('click', function(){
+        if(initialClick === false) {
+            initialClick = true;
+            startTimer();
+        }
+    })
+});
+
+
 
 
 allCards.forEach(function(card) {
     card.addEventListener('click', function(e) {
-
+        
         if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
             openCards.push(card);
             card.classList.add('open', 'show');
@@ -96,6 +166,7 @@ allCards.forEach(function(card) {
                         }, 800);
                     }
                     addMove();
+                    checkScore();
                 }
             }
     });
