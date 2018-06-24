@@ -30,6 +30,58 @@ function shuffle(array) {
     return array;
 }
 
+function activateCards() {
+    allCards.forEach(function(card) {
+        card.addEventListener('click', function(e) {
+            
+            if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
+                openCards.push(card);
+                card.classList.add('open', 'show');
+
+                    // If cards match, show!
+                    if (openCards.length == 2) {
+                        if (openCards[0].dataset.card == openCards[1].dataset.card) {
+                            openCards[0].classList.add('match');
+                            openCards[0].classList.add('open');
+                            openCards[0].classList.add('show');
+
+                            openCards[1].classList.add('match');
+                            openCards[1].classList.add('open');
+                            openCards[1].classList.add('show');
+
+                            openCards = [];
+                            matched++;
+                        } else { 
+                            // If they do not match, hide
+                            setTimeout(function(){
+                                openCards.forEach(function(card) {
+                                    card.classList.remove('open', 'show');
+                                });
+
+                                openCards = [];
+                            }, 800);
+                        }
+                        addMove();
+                        checkScore();
+                        checkForGameOver();
+                    }
+                }
+        });
+    });   
+};
+
+function startGame() {
+    allCards.forEach(function(card){
+        card.addEventListener('click', function(){
+            if(initialClick === false) {
+                initialClick = true;
+                clockOff = false;
+                startTimer();
+            }
+        })
+    });
+};
+
 function addMove () {
     moves++;
     var movesCounter = document.querySelector('.moves');
@@ -123,6 +175,8 @@ function resetGame() {
     resetMoves();
     resetStars();
     initGame();
+    activateCards();
+    startGame();
 }
 
 function resetClockAndTime() {
@@ -196,56 +250,9 @@ var matched = 0;
 const totalPairs = 8;
 
 
-allCards.forEach(function(card){
-    card.addEventListener('click', function(){
-        if(initialClick === false) {
-            initialClick = true;
-            clockOff = false;
-            startTimer();
-        }
-    })
-});
 
-
-
-
-allCards.forEach(function(card) {
-    card.addEventListener('click', function(e) {
-        
-        if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
-            openCards.push(card);
-            card.classList.add('open', 'show');
-
-                // If cards match, show!
-                if (openCards.length == 2) {
-                    if (openCards[0].dataset.card == openCards[1].dataset.card) {
-                        openCards[0].classList.add('match');
-                        openCards[0].classList.add('open');
-                        openCards[0].classList.add('show');
-
-                        openCards[1].classList.add('match');
-                        openCards[1].classList.add('open');
-                        openCards[1].classList.add('show');
-
-                        openCards = [];
-                        matched++;
-                    } else { 
-                        // If they do not match, hide
-                        setTimeout(function(){
-                            openCards.forEach(function(card) {
-                                card.classList.remove('open', 'show');
-                            });
-
-                            openCards = [];
-                        }, 800);
-                    }
-                    addMove();
-                    checkScore();
-                    checkForGameOver();
-                }
-            }
-    });
-});   
+activateCards();
+startGame();
 
 document.querySelector('.modal__cancel').addEventListener('click', () => {
     toggleModal();
