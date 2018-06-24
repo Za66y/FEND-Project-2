@@ -89,8 +89,81 @@ function displayTime() {
     clock.innerHTML = formatTime();
 }
 
+function toggleModal() {
+    const modal = document.querySelector('.modal__background');
+    modal.classList.toggle('hide');
+}
 
+function writeModalStats() {
+    const timeStat = document.querySelector('.modal__time');
+    const clockTime = document.querySelector('.clock').innerHTML;
+    const movesStat = document.querySelector('.modal__moves');
+    const starsStat = document.querySelector('.modal__stars');
+    const stars = getStars();
 
+    timeStat.innerHTML = `Time = ${clockTime}`;
+    movesStat.innerHTML = `Moves = ${moves}`;
+    starsStat.innerHTML = `Stars = ${stars}`;
+}
+
+function getStars() {
+    stars = document.querySelectorAll('.stars li');
+    starCount = 0;
+    for (star of stars) {
+        if (star.style.display !== 'none') {
+            starCount++
+        }
+    }
+    console.log(starCount);
+    return starCount;
+}
+
+function resetGame() {
+    resetClockAndTime();
+    resetMoves();
+    resetStars();
+    shuffle(cards);
+}
+
+function resetClockAndTime() {
+    stopTimer();
+    clockOff = true;
+    hour = 0;
+    minutes = 0;
+    seconds = 0;
+    displayTime();
+}
+
+function resetMoves() {
+    moves = 0;
+    document.querySelector('.moves').innerHTML = moves;
+}
+
+function resetStars() {
+    stars = 0;
+    const starList = document.querySelectorAll('.stars li');
+    for (star of starList) {
+        star.style.display = 'inline';
+    }
+}
+
+function gameOver() {
+    stopTimer();
+    toggleModal();
+    writeModalStats();
+}
+
+function checkForGameOver() {
+    if (matched === totalPairs) {
+        gameOver();
+    }
+}
+
+function replayGame() {
+    resetGame();
+    toggleModal();
+    initGame();
+}
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -120,14 +193,15 @@ var openCards = [];
 var moves = 0;
 var clockOff = true;
 var deck = document.querySelector('.deck');
-    
-
+var matched = 0;   
+const totalPairs = 8;
 
 
 allCards.forEach(function(card){
     card.addEventListener('click', function(){
         if(initialClick === false) {
             initialClick = true;
+            clockOff = false;
             startTimer();
         }
     })
@@ -155,6 +229,7 @@ allCards.forEach(function(card) {
                         openCards[1].classList.add('show');
 
                         openCards = [];
+                        matched++;
                     } else { 
                         // If they do not match, hide
                         setTimeout(function(){
@@ -167,7 +242,17 @@ allCards.forEach(function(card) {
                     }
                     addMove();
                     checkScore();
+                    checkForGameOver();
                 }
             }
     });
 });   
+
+document.querySelector('.modal__cancel').addEventListener('click', () => {
+    toggleModal();
+});
+
+document.querySelector('.restart').addEventListener('click', resetGame);
+
+document.querySelector('.modal__replay').addEventListener('click', replayGame);
+
