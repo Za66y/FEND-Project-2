@@ -122,7 +122,7 @@ function resetGame() {
     resetClockAndTime();
     resetMoves();
     resetStars();
-    shuffle(cards);
+    initGame();
 }
 
 function resetClockAndTime() {
@@ -162,7 +162,6 @@ function checkForGameOver() {
 function replayGame() {
     resetGame();
     toggleModal();
-    initGame();
 }
 
 /*
