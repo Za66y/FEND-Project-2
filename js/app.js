@@ -33,7 +33,7 @@ function shuffle(array) {
 function activateCards() {
     allCards.forEach(function(card) {
         card.addEventListener('click', function(e) {
-            
+        console.log("A card was clicked!");   
             if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
                 openCards.push(card);
                 card.classList.add('open', 'show');
