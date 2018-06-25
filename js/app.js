@@ -218,6 +218,11 @@ function replayGame() {
     toggleModal();
 }
 
+function reloadPage() {
+    location.reload();
+}
+
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -260,5 +265,5 @@ document.querySelector('.modal__cancel').addEventListener('click', () => {
 
 document.querySelector('.restart').addEventListener('click', resetGame);
 
-document.querySelector('.modal__replay').addEventListener('click', replayGame);
+document.querySelector('.modal__replay').addEventListener('click', reloadPage);
 
