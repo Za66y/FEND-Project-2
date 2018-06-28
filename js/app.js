@@ -36,8 +36,8 @@ function activateCards() {
         console.log("A card was clicked!");   
             if (!card.classList.contains('open') && !card.classList.contains('show') && !card.classList.contains('match')) {
                 openCards.push(card);
-                card.classList.add('open', 'show');
-
+                if (openCards.length < 3) {
+                    card.classList.add('open', 'show');
                     // If cards match, show!
                     if (openCards.length == 2) {
                         if (openCards[0].dataset.card == openCards[1].dataset.card) {
@@ -66,6 +66,7 @@ function activateCards() {
                         checkForGameOver();
                     }
                 }
+            }
         });
     });   
 };
