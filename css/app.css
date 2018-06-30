@@ -152,6 +152,9 @@ h1 {
     width: 60px;
     height: 30px;
 }
+.modal__congrats {
+    font-weight: bold;
+}
 .hide {
     display: none;
 }

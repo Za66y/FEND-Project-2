@@ -4,6 +4,7 @@
 
 var cards = ['fa-diamond', 'fa-diamond', 'fa-bomb', 'fa-bomb', 'fa-bolt', 'fa-bolt', 'fa-paper-plane-o', 'fa-paper-plane-o', 'fa-cube', 'fa-cube', 'fa-bicycle', 'fa-bicycle', 'fa-anchor', 'fa-anchor', 'fa-leaf', 'fa-leaf'];
 
+// dynamically creates HTML cards and adds to page
 function generateCard(card) {            
     return `<li class="card" data-card="${card}"><i class="fa ${card}"></i></li>`;
 }
@@ -30,6 +31,7 @@ function shuffle(array) {
     return array;
 }
 
+// Function that goes through each card, adds event listener, adds open/show classes when clicked, and adds match class when they match
 function activateCards() {
     allCards.forEach(function(card) {
         card.addEventListener('click', function(e) {
@@ -71,6 +73,7 @@ function activateCards() {
     });   
 };
 
+// checks for first click, starts timer
 function startGame() {
     allCards.forEach(function(card){
         card.addEventListener('click', function(){
@@ -83,18 +86,21 @@ function startGame() {
     });
 };
 
+// adds a move to move counter
 function addMove () {
     moves++;
     var movesCounter = document.querySelector('.moves');
     movesCounter.innerHTML = moves;
 }
 
+// removes a star grade in gradients
 function checkScore() {
     if (moves === 10 || moves === 20) {
         removeStar();
     }
 }
 
+// visually removes star
 function removeStar() {
     var starList = document.querySelectorAll('.stars li');
     for (star of starList) {
@@ -112,13 +118,14 @@ let seconds = 0;
 let timer;
 let initialClick = false;
 
+// formats time
 function formatTime() {
     let sec = seconds > 9 ? String(seconds) : '0' + String(seconds);
     let min = minutes > 9 ? String(minutes) : '0' + String(minutes);
     return min + ':' + sec;
 }
 
-
+// converts time after 60 seconds to minutes
 function startTimer() {
     timer = setInterval(function(){
         seconds++;
@@ -132,21 +139,25 @@ function startTimer() {
     }, 1000);
 }
 
+// stops timer
 function stopTimer() {
     clearInterval(timer);
 }
 
+// used to display the time in modal
 function displayTime() {
     const clock = document.querySelector('.clock');
     console.log(clock);
     clock.innerHTML = formatTime();
 }
 
+// displays modal
 function toggleModal() {
     const modal = document.querySelector('.modal__background');
     modal.classList.toggle('hide');
 }
 
+// adds stats to modal window
 function writeModalStats() {
     const timeStat = document.querySelector('.modal__time');
     const clockTime = document.querySelector('.clock').innerHTML;
@@ -159,6 +170,7 @@ function writeModalStats() {
     starsStat.innerHTML = `Stars = ${stars}`;
 }
 
+// retrieves stars to add to modal stats
 function getStars() {
     stars = document.querySelectorAll('.stars li');
     starCount = 0;
@@ -171,6 +183,8 @@ function getStars() {
     return starCount;
 }
 
+
+// resets game completely, resets game, resets clock, resets stars, restarts game/activates the click event listener
 function resetGame() {
     resetClockAndTime();
     resetMoves();
@@ -180,6 +194,7 @@ function resetGame() {
     startGame();
 }
 
+// resets clock to 0
 function resetClockAndTime() {
     stopTimer();
     clockOff = true;
@@ -189,11 +204,13 @@ function resetClockAndTime() {
     displayTime();
 }
 
+// resets move counter
 function resetMoves() {
     moves = 0;
     document.querySelector('.moves').innerHTML = moves;
 }
 
+// resets stars grade
 function resetStars() {
     stars = 0;
     const starList = document.querySelectorAll('.stars li');
@@ -202,23 +219,27 @@ function resetStars() {
     }
 }
 
+// pops modal, stops timer, gathers game stats
 function gameOver() {
     stopTimer();
     toggleModal();
     writeModalStats();
 }
 
+// checks for game over when 8 matches are made
 function checkForGameOver() {
     if (matched === totalPairs) {
         gameOver();
     }
 }
 
+// resets game, toggles modal (hides)
 function replayGame() {
     resetGame();
     toggleModal();
 }
 
+// completely reloads page
 function reloadPage() {
     location.reload();
 }
@@ -235,6 +256,7 @@ function reloadPage() {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+ // calls generateCard function to dynamically add cards to page
 function initGame() {
     var deck = document.querySelector('.deck')  
     var cardHTML = shuffle(cards).map(function(card) {
