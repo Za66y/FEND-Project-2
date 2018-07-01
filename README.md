@@ -7,6 +7,7 @@ This is a game in which your memory will be challenged!  You will interact dynam
 * [Instructions](#instructions)
 * [Contributing](#contributing)
 * [Acknowledgements](#acknowledgements)
+* [Dependencies](#dependencies)
 
 ## Instructions
 
@@ -20,4 +21,8 @@ For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
 ## Acknowledgements
 
 Huge thanks to Mike Wales for starting me off in the right direction!! His webinar is incredibly helpful and can be found here: https://www.youtube.com/watch?v=_rUH-sEs68Y
+
+## Dependencies
+
+Dependencies for the index.html file to work appropriately include the css file "app.css", the js file called "app.js", and the image file named "geometry2.png".
 
